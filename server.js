@@ -1,101 +1,158 @@
-// ==========================================
-// LuaSpark — Direct API Version (no Assistant)
-// ==========================================
+// ---------------------------
+// LuaSpark v3 Server Backend
+// Context-Aware, Fast, and Stable
+// ---------------------------
+
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import fetch from "node-fetch";
+import fs from "fs";
+import OpenAI from "openai";
 
 dotenv.config();
+
 const app = express();
-app.use(cors());
-app.use(express.json());
-
 const PORT = process.env.PORT || 5000;
-const API_KEY = process.env.OPENAI_API_KEY;
-const BYPASS_EMAIL = process.env.BYPASS_EMAIL?.toLowerCase();
 
-// Simulated local user store (no DB)
-const users = new Map();
+// ---------------------------
+// Middleware
+// ---------------------------
+app.use(express.json());
+app.use(cors());
+app.use(express.static("public"));
 
-function makeToken(email) {
-  return Buffer.from(`${email}:${Date.now()}:${Math.random()}`).toString("base64");
+// ---------------------------
+// Load / Save Users
+// ---------------------------
+let users = new Map();
+const dbPath = "./users.json";
+
+function loadUsers() {
+  if (fs.existsSync(dbPath)) {
+    const data = JSON.parse(fs.readFileSync(dbPath, "utf-8"));
+    users = new Map(Object.entries(data));
+    console.log(`[INIT] Loaded ${users.size} users from DB.`);
+  } else {
+    fs.writeFileSync(dbPath, "{}");
+    console.log("[INIT] Created new users.json");
+  }
 }
 
-function userByToken(token) {
-  if (!token) return null;
-  return [...users.values()].find((u) => u.token === token);
+function saveUsers() {
+  fs.writeFileSync(dbPath, JSON.stringify(Object.fromEntries(users), null, 2));
 }
 
-// Serve frontend files
-import path from "path";
-import { fileURLToPath } from "url";
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-app.use(express.static(path.join(__dirname, "public")));
+loadUsers();
 
-// AUTH
+// ---------------------------
+// OpenAI Setup
+// ---------------------------
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+
+// ---------------------------
+// Auth Routes
+// ---------------------------
 app.post("/signup", (req, res) => {
   const { email, password } = req.body;
-  if (!email || !password) return res.json({ error: "Email and password required." });
-  if (users.has(email)) return res.json({ error: "User already exists." });
-  users.set(email, { password, hasPaid: false });
-  res.json({ success: true });
+  if (!email || !password)
+    return res.status(400).json({ error: "Email and password required." });
+
+  if (users.has(email))
+    return res.status(400).json({ error: "User already exists." });
+
+  const token = Math.random().toString(36).substring(2);
+  users.set(email, { email, password, token, hasPaid: false, memory: [] });
+  saveUsers();
+  res.json({ token });
 });
 
-app.post("/login", (req, res) => {
+app.post("/signin", (req, res) => {
   const { email, password } = req.body;
   const user = users.get(email);
-  if (!user || user.password !== password) return res.json({ error: "Invalid credentials." });
+  if (!user || user.password !== password)
+    return res.status(401).json({ error: "Invalid credentials." });
 
-  const token = makeToken(email);
-  user.token = token;
-  if (email.toLowerCase() === BYPASS_EMAIL) user.hasPaid = true;
-  res.json({ token, hasPaid: user.hasPaid });
+  res.json({ token: user.token });
 });
 
-// GENERATE endpoint (direct OpenAI API)
+// ---------------------------
+// Generate Endpoint (Memory + Bypass)
+// ---------------------------
 app.post("/generate", async (req, res) => {
   try {
+    const authHeader = req.headers.authorization || "";
+    const token = authHeader.replace("Bearer ", "").trim();
     const { prompt } = req.body;
-    const token = (req.headers.authorization || "").replace("Bearer ", "").trim();
-    const user = userByToken(token);
 
-    if (!user) return res.status(401).json({ error: "Unauthorized." });
-    if (!user.hasPaid) return res.status(402).json({ error: "Payment required." });
-    if (!prompt) return res.status(400).json({ error: "No prompt provided." });
+    if (!token) return res.status(403).json({ error: "Unauthorized." });
+    const user = [...users.values()].find((u) => u.token === token);
+    if (!user) return res.status(403).json({ error: "Unauthorized." });
 
-    // Send prompt to OpenAI directly
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${API_KEY}`,
-        "Content-Type": "application/json",
+    const isBypassUser =
+      user.email?.toLowerCase?.() ===
+      process.env.BYPASS_EMAIL?.toLowerCase?.();
+
+    if (!user.hasPaid && !isBypassUser)
+      return res.status(403).json({ error: "Payment required." });
+
+    if (!prompt)
+      return res.status(400).json({ error: "No prompt provided." });
+
+    // ---------------------------
+    // Memory Logic
+    // ---------------------------
+    if (!user.memory) user.memory = [];
+    user.memory.push({ role: "user", content: prompt });
+
+    // Keep last 10 exchanges
+    if (user.memory.length > 10) user.memory = user.memory.slice(-10);
+
+    const messages = [
+      {
+        role: "system",
+        content:
+          "You are LuaSpark, an AI assistant that generates functional Roblox LuaU scripts. Always respond with code and short explanations when needed.",
       },
-      body: JSON.stringify({
-        model: "gpt-4o-mini",
-        messages: [
-          { role: "system", content: "You are LuaSpark. Output clean Roblox LuaU scripts only, with explanations as comments." },
-          { role: "user", content: prompt },
-        ],
-        temperature: 0.4,
-      }),
+      ...user.memory,
+    ];
+
+    // ---------------------------
+    // OpenAI API Call
+    // ---------------------------
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages,
+      temperature: 0.3,
+      max_tokens: 700,
     });
 
-    const data = await response.json();
-    if (data.error) throw new Error(data.error.message);
+    const output =
+      completion.choices?.[0]?.message?.content?.trim() ||
+      "No response generated.";
 
-    const output = data.choices?.[0]?.message?.content?.trim() || "-- No output --";
+    // Store assistant reply in memory
+    user.memory.push({ role: "assistant", content: output });
+    saveUsers();
+
     res.json({ output });
   } catch (err) {
     console.error("[/generate] error:", err);
-    res.status(500).json({ error: err.message || "Server error" });
+    res.status(500).json({
+      error: err.message || "Server error.",
+    });
   }
 });
 
-// Frontend fallback
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
-});
+// ---------------------------
+// Periodic Save
+// ---------------------------
+setInterval(saveUsers, 60 * 1000);
 
-app.listen(PORT, () => console.log(`✅ LuaSpark running on http://localhost:${PORT}`));
+// ---------------------------
+// Start Server
+// ---------------------------
+app.listen(PORT, () =>
+  console.log(`✅ LuaSpark v3 live → http://localhost:${PORT}`)
+);

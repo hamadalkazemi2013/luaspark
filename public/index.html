@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LuaSpark — AI Roblox LuaU Buddy</title>
+  <meta name="theme-color" content="#090b18" />
+  <link rel="icon" href="assets/luaspark-logo.png" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ================= HEADER / NAV ================= -->
+  <header class="glass-nav">
+    <nav class="nav-container">
+      <a href="#" class="brand">
+        <img src="assets/luaspark-logo.png" alt="LuaSpark Logo" />
+        <span>LuaSpark</span>
+      </a>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#generator">Generator</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="nav-actions">
+        <button id="btnLogin" class="btn">Sign In</button>
+        <button id="btnBuy" class="btn btn-primary">Buy Now</button>
+        <button id="btnLogout" class="btn" style="display:none;">Sign Out</button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ================= HERO ================= -->
+  <section class="hero">
+    <div class="hero-inner">
+      <h1>Ship LuaU <span class="accent">10× Faster</span> with LuaSpark</h1>
+      <p class="subtitle">
+        Generate clean, working Roblox LuaU scripts — explained line by line.
+      </p>
+      <div class="hero-cta">
+        <button id="ctaGetStarted" class="btn btn-primary">Get Started</button>
+        <button id="ctaSeeDemo" class="btn btn-glass">See Demo</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FEATURES ================= -->
+  <section id="features" class="features">
+    <h2 class="section-title">Why LuaSpark</h2>
+    <p class="section-sub">Smarter generation, better code, faster results.</p>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h3>⚡ Intelligent LuaU Output</h3>
+        <p>Get context-aware code that uses proper Roblox APIs and clean architecture.</p>
+      </div>
+      <div class="feature-card">
+        <h3>🧠 Real Explanations</h3>
+        <p>Learn as you build — every snippet comes with structured explanations.</p>
+      </div>
+      <div class="feature-card">
+        <h3>💎 Developer Friendly</h3>
+        <p>No bloat. No weird syntax. Just plug-and-play LuaU that works.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= GENERATOR ================= -->
+  <section id="generator" class="generator">
+    <h2 class="section-title">LuaSpark Generator</h2>
+    <p class="section-sub">Enter any prompt — get fully working Roblox LuaU instantly.</p>
+
+    <div class="gen-box">
+      <div id="lockOverlay" class="overlay">
+        <h3>🔒 Unlock LuaSpark</h3>
+        <p>Sign in & purchase lifetime access to use the generator.</p>
+        <button id="buyNowOverlay" class="btn btn-primary">Buy Now</button>
+      </div>
+
+      <div class="gen-inputs">
+        <input id="prompt" class="input" placeholder="e.g. LuaU: create a leaderboard that saves scores" />
+        <button id="btnGenerate" class="btn btn-primary">Generate</button>
+      </div>
+
+      <div class="gen-output glass-panel">
+        <div class="gen-header">
+          <h3>Response</h3>
+          <div>
+            <button id="copyBtn" class="btn-sm">Copy</button>
+          </div>
+        </div>
+        <pre id="responseBox" class="response-box">🤖 Enter a prompt to begin.</pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PRICING ================= -->
+  <section id="pricing" class="pricing">
+    <h2 class="section-title">Simple Pricing</h2>
+    <p class="section-sub">One-time payment, lifetime access. No subscriptions.</p>
+
+    <div class="pricing-card glass-panel">
+      <h3>Lifetime Access</h3>
+      <p class="price">$6.99</p>
+      <p class="muted">Unlock the generator and future updates forever.</p>
+      <button id="buyNow" class="btn btn-primary">Buy Now</button>
+    </div>
+  </section>
+
+  <!-- ================= CONTACT ================= -->
+  <section id="contact" class="contact">
+    <h2 class="section-title">Need Help?</h2>
+    <p>DM us on TikTok <strong>@LuasparkOfficial</strong> for bugs or feedback.</p>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer>
+    © 2025 LuaSpark. All rights reserved.
+  </footer>
+
+  <!-- ================= AUTH MODAL ================= -->
+  <div id="authModal" class="modal">
+    <div class="auth glass-panel">
+      <button id="closeAuth" class="close">×</button>
+      <h2>Sign In / Register</h2>
+      <input id="email" type="email" placeholder="you@example.com" />
+      <input id="password" type="password" placeholder="••••••••" />
+      <button id="btnSignin" class="btn btn-primary">Sign In</button>
+      <button id="btnSignup" class="btn btn-glass">Sign Up</button>
+    </div>
+  </div>
+
+  <!-- ================= TOAST ================= -->
+  <div id="toast" class="toast"></div>
+
+  <!-- ================= BACKGROUND ANIMATION ================= -->
+  <div class="bg-gradient"></div>
+
+  <script src="main.js"></script>
+</body>
+</html>

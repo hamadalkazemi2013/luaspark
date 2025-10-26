@@ -2,17 +2,17 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>LuaSpark — AI Roblox LuaU Buddy</title>
 <meta name="theme-color" content="#0b0e1a" />
 <link rel="icon" href="luaspark-logo.png" />
 
 <style>
 :root {
-  --bg:#05060e; --fg:#e8eaff; --muted:#9aa3c7;
-  --accent:#7a68ff; --accent-glow:#a693ff;
-  --glass:rgba(255,255,255,.07); --line:rgba(255,255,255,.08);
-  --radius:18px; --shadow:0 0 40px rgba(139,123,255,.18);
+  --bg:#05060e;--fg:#e8eaff;--muted:#9aa3c7;
+  --accent:#7a68ff;--accent-glow:#a693ff;
+  --glass:rgba(255,255,255,.07);--line:rgba(255,255,255,.08);
+  --radius:18px;--shadow:0 0 40px rgba(139,123,255,.18);
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{
@@ -20,7 +20,7 @@ body{
   background:var(--bg);color:var(--fg);overflow-x:hidden;
 }
 
-/* Animated background */
+/* Background animation */
 .bg-gradient{
   position:fixed;inset:0;z-index:-2;
   background:
@@ -33,7 +33,7 @@ body{
 }
 @keyframes bgShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
 
-/* Navbar */
+/* NAVBAR */
 .glass-nav{
   position:fixed;top:0;width:100%;height:72px;
   backdrop-filter:blur(16px) saturate(180%);
@@ -63,9 +63,9 @@ body{
   border:none;color:#000;font-weight:700;
   box-shadow:0 0 15px rgba(139,123,255,.35);
 }
-.btn-primary:hover{filter:brightness(1.15);}
+.btn-primary:hover{filter:brightness(1.1);}
 
-/* Hero */
+/* HERO */
 .hero{
   display:flex;align-items:center;justify-content:center;
   min-height:100vh;padding:120px 24px 80px;
@@ -75,20 +75,21 @@ body{
 .hero h1{
   font-size:clamp(40px,6vw,70px);font-weight:900;
   background:linear-gradient(180deg,#fff,var(--accent-glow));
-  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
-  color:transparent;line-height:1.1;margin-bottom:14px;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  line-height:1.1;margin-bottom:14px;
 }
 .hero p{color:var(--muted);font-size:1.1rem;margin-bottom:20px;}
 .hero-cta{display:flex;flex-wrap:wrap;gap:12px;}
 .glass-card{
   width:100%;max-width:420px;padding:28px;border-radius:var(--radius);
   background:var(--glass);backdrop-filter:blur(16px);
-  border:1px solid var(--line);box-shadow:var(--shadow);text-align:left;
+  border:1px solid var(--line);box-shadow:var(--shadow);
+  text-align:left;
 }
 .glass-card h3{margin-bottom:10px;color:#bfc9ff;font-size:1rem;font-weight:600;}
 pre{color:#dfe3ff;font-size:.9rem;white-space:pre-wrap;line-height:1.4;}
 
-/* Generator */
+/* GENERATOR */
 section{padding:80px 16px;text-align:center;}
 .section-title{font-size:2.2rem;margin-bottom:8px;font-weight:700;}
 .section-sub{color:var(--muted);margin-bottom:36px;font-size:.95rem;}
@@ -119,34 +120,55 @@ section{padding:80px 16px;text-align:center;}
   color:#dce0ff;font-family:"Consolas","Courier New",monospace;font-size:.9rem;
   background:rgba(0,0,0,.25);border-radius:12px;padding:16px;
   border:1px solid rgba(255,255,255,.07);
-  min-height:400px;height:auto;max-height:none;overflow:visible;
-  line-height:1.45;transition:all .3s ease;
+  min-height:350px;height:auto;overflow:auto;line-height:1.45;
 }
 @media(max-width:900px){.response-grid{grid-template-columns:1fr;}}
 
-/* Pricing / Footer / Auth */
-.price-card{background:var(--glass);border:1px solid var(--line);
-  border-radius:var(--radius);padding:24px;backdrop-filter:blur(16px);
-  box-shadow:var(--shadow);max-width:420px;margin:0 auto;text-align:center;}
-.price-card .price{font-size:3rem;background:linear-gradient(180deg,#fff,var(--accent-glow));
+/* PRICING */
+.price-card{
+  background:var(--glass);border:1px solid var(--line);
+  border-radius:var(--radius);padding:24px;
+  backdrop-filter:blur(16px);box-shadow:var(--shadow);
+  max-width:420px;margin:0 auto;text-align:center;
+}
+.price-card .price{
+  font-size:3rem;background:linear-gradient(180deg,#fff,var(--accent-glow));
   -webkit-background-clip:text;background-clip:text;color:transparent;
-  font-weight:800;line-height:1.1;margin:10px 0 6px;}
+  font-weight:800;line-height:1.1;margin:10px 0 6px;
+}
+.price-card p{color:var(--muted);font-size:.9rem;line-height:1.4;}
+
+/* FOOTER */
 footer{border-top:1px solid var(--line);text-align:center;padding:24px;color:var(--muted);font-size:.8rem;}
+
+/* AUTH MODAL */
 .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(5,6,14,.7);z-index:300;}
 .modal.show{display:flex;}
-.auth{background:var(--glass);padding:30px;border-radius:var(--radius);width:min(420px,90%);border:1px solid var(--line);
-  box-shadow:var(--shadow);backdrop-filter:blur(16px);position:relative;}
+.auth{
+  background:var(--glass);padding:30px;border-radius:var(--radius);
+  width:min(420px,90%);border:1px solid var(--line);
+  box-shadow:var(--shadow);backdrop-filter:blur(16px);
+  position:relative;
+}
 .auth h2{font-size:1.1rem;font-weight:600;margin-bottom:14px;}
-.auth input{width:100%;margin-bottom:10px;padding:12px;border-radius:10px;background:rgba(255,255,255,.05);border:1px solid var(--line);color:#fff;font-size:.9rem;}
-.close{position:absolute;top:10px;right:14px;background:none;border:none;color:#fff;font-size:22px;cursor:pointer;}
-.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:22px;background:rgba(15,15,30,.9);color:#eaeaff;border:1px solid var(--line);
-  border-radius:12px;padding:10px 16px;display:none;z-index:400;box-shadow:var(--shadow);font-size:.8rem;}
+.auth input{
+  width:100%;margin-bottom:10px;padding:12px;border-radius:10px;
+  background:rgba(255,255,255,.05);border:1px solid var(--line);color:#fff;font-size:.9rem;
+}
+.close{position:absolute;top:10px;right:14px;background:none;border:none;color:#fff;font-size:22px;line-height:1;cursor:pointer;}
+.auth-buttons{display:flex;gap:8px;margin-top:8px;}
+
+/* TOAST */
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:22px;background:rgba(15,15,30,.9);
+color:#eaeaff;border:1px solid var(--line);border-radius:12px;padding:10px 16px;display:none;z-index:400;box-shadow:var(--shadow);font-size:.8rem;}
 .toast.show{display:block;}
 </style>
 </head>
+
 <body>
 <div class="bg-gradient"></div>
 
+<!-- NAVBAR -->
 <header class="glass-nav">
   <nav class="nav-container">
     <a href="#" class="brand"><img src="luaspark-logo.png" alt="LuaSpark"/><span>LuaSpark</span></a>
@@ -154,139 +176,160 @@ footer{border-top:1px solid var(--line);text-align:center;padding:24px;color:var
       <a href="#generator">Generator</a>
       <a href="#pricing">Pricing</a>
       <a href="#reviews">Reviews</a>
-      <a href="#changelog">Changelog</a>
     </div>
     <div class="nav-actions">
+      <button id="btnBuyNav" class="btn btn-primary">Buy Now</button>
       <button id="btnLogin" class="btn">Sign In</button>
-      <button id="btnBuy" class="btn btn-primary">Buy Now</button>
       <button id="btnLogout" class="btn" style="display:none;">Sign Out</button>
     </div>
   </nav>
 </header>
 
+<!-- HERO -->
 <section class="hero">
   <div class="hero-content">
     <h1>Accelerate Your LuaU Workflow</h1>
-    <p>Generate functional Roblox LuaU code and detailed explanations instantly — powered by LuaSpark’s AI.</p>
+    <p>Generate clean Roblox LuaU code instantly with AI — powered by LuaSpark.</p>
     <div class="hero-cta">
-      <button id="ctaGetStarted" class="btn btn-primary">Get Started</button>
-      <button id="ctaSeeDemo" class="btn">See Demo</button>
+      <button id="btnBuyHero" class="btn btn-primary">Buy Now — $6.99</button>
+      <button id="ctaGetStarted" class="btn">Get Started</button>
     </div>
   </div>
   <div class="glass-card">
     <h3>Example Output</h3>
-    <pre>local part = Instance.new("Part")
-part.Anchored = true
-part.Position = Vector3.new(0, 5, 0)
+    <pre>local part = Instance.new("Part") 
+part.Anchored = true 
+part.Position = Vector3.new(0,5,0) 
 part.Parent = workspace</pre>
   </div>
 </section>
 
-<section id="generator" class="generator">
+<!-- GENERATOR -->
+<section id="generator">
   <h2 class="section-title">LuaSpark Generator</h2>
-  <p class="section-sub">Describe your idea — get optimized LuaU code and explanations.</p>
+  <p class="section-sub">Describe your idea — get LuaU code and explanation instantly.</p>
+
   <div class="gen-box">
     <div id="lockOverlay" class="overlay">
-      <h3>🔒 Unlock LuaSpark</h3>
+      <h3>🔒 Locked</h3>
       <p>Sign in & purchase lifetime access to use the generator.</p>
-      <button id="buyNowOverlay" class="btn btn-primary">Buy Now</button>
+      <button id="btnBuyOverlay" class="btn btn-primary">Buy Now</button>
+      <button id="btnSignInOverlay" class="btn">Sign In</button>
     </div>
+
     <div class="gen-inputs">
-      <input id="prompt" class="input" placeholder="e.g. Create a round system with map voting" />
+      <input id="prompt" class="input" placeholder="e.g. make a DataStore leaderboard" />
       <button id="btnGenerate" class="btn btn-primary" disabled>Generate</button>
     </div>
+
     <div class="response-grid">
       <div class="response-section">
-        <h3>🧠 Code Output</h3>
-        <pre id="responseBox" class="response-box">🤖 Waiting for your prompt...</pre>
+        <h3>🧠 LuaSpark Code Output</h3>
+        <pre id="responseBox" class="response-box">🤖 Enter a prompt to begin.</pre>
       </div>
       <div class="response-section">
         <h3>📘 Explanation</h3>
-        <pre id="explanationBox" class="response-box">💬 The explanation will appear here.</pre>
+        <pre id="explanationBox" class="response-box">💬 Explanation will appear here.</pre>
       </div>
     </div>
   </div>
 </section>
 
+<!-- PRICING -->
 <section id="pricing">
   <h2 class="section-title">Simple Pricing</h2>
+  <p class="section-sub">One-time payment, lifetime access.</p>
   <div class="price-card">
-    <h3>Lifetime Access</h3><div class="price">$6.99</div>
-    <p>Unlock the generator & all updates forever.</p>
-    <button id="buyNow" class="btn btn-primary">Buy Now</button>
+    <h3>Lifetime Access</h3>
+    <div class="price">$6.99</div>
+    <p>Unlock LuaSpark forever — full generator access + future updates.</p>
+    <button id="btnBuyPricing" class="btn btn-primary">Buy Now</button>
   </div>
 </section>
 
+<!-- REVIEWS -->
 <section id="reviews">
   <h2 class="section-title">What Developers Say</h2>
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;max-width:1000px;margin:0 auto;">
     <div class="glass-card"><p>"LuaSpark saved me hours — the code actually runs!"</p><div style="color:#ffd166;margin-top:8px;">★★★★★</div><div style="margin-top:6px;color:#a9bfec;font-weight:700;font-size:.8rem;">— Alex • Roblox Dev</div></div>
     <div class="glass-card"><p>"It’s like having a LuaU mentor built in."</p><div style="color:#ffd166;margin-top:8px;">★★★★★</div><div style="margin-top:6px;color:#a9bfec;font-weight:700;font-size:.8rem;">— Sarah • Builder</div></div>
-  </div>
-</section>
-
-<section id="changelog">
-  <h2 class="section-title">Changelog</h2>
-  <div class="glass-card" style="max-width:600px;margin:0 auto;">
-    <p><strong>v5.0</strong> — Dual-output (code + explanation), persistent auth, and memory.</p>
+    <div class="glass-card"><p>"Best $6.99 I’ve spent on my dev setup."</p><div style="color:#ffd166;margin-top:8px;">★★★★★</div><div style="margin-top:6px;color:#a9bfec;font-weight:700;font-size:.8rem;">— Hamza • Scripter</div></div>
   </div>
 </section>
 
 <footer>© 2025 LuaSpark. All rights reserved.</footer>
 
 <!-- AUTH MODAL -->
-<div id="authModal" class="modal"><div class="auth">
-  <button id="closeAuth" class="close">×</button>
-  <h2>Sign In / Register</h2>
-  <input id="email" type="email" placeholder="you@example.com" />
-  <input id="password" type="password" placeholder="••••••••" />
-  <div class="auth-buttons"><button id="btnSignin" class="btn btn-primary">Sign In</button><button id="btnSignup" class="btn">Sign Up</button></div>
-</div></div>
+<div id="authModal" class="modal">
+  <div class="auth">
+    <button id="closeAuth" class="close">×</button>
+    <h2>Sign In / Register</h2>
+    <input id="email" type="email" placeholder="you@example.com" />
+    <input id="password" type="password" placeholder="••••••••" />
+    <div class="auth-buttons">
+      <button id="btnSignin" class="btn btn-primary">Sign In</button>
+      <button id="btnSignup" class="btn">Sign Up</button>
+    </div>
+  </div>
+</div>
 
 <div id="toast" class="toast"></div>
 
 <script>
-const PAYPAL_LINK="https://www.paypal.com/ncp/payment/BXY4XS2TARTHS";
-const BYPASS_EMAIL="Hamadalkazemi2013@gmail.com".toLowerCase();
+const PAYPAL_LINK="https://www.paypal.com/ncp/payment/QMBJE8CWUGEA4";
+const BYPASS_EMAIL="hamadalkazemi2013@gmail.com".toLowerCase();
 const $=(s)=>document.querySelector(s);
-const toast=(m,t=2600)=>{const e=$("#toast");e.textContent=m;e.classList.add("show");setTimeout(()=>e.classList.remove("show"),t);};
+const toast=(m,t=2500)=>{const e=$("#toast");e.textContent=m;e.classList.add("show");setTimeout(()=>e.classList.remove("show"),t);};
 
+// AUTH
 $("#btnLogin").onclick=()=>$("#authModal").classList.add("show");
 $("#closeAuth").onclick=()=>$("#authModal").classList.remove("show");
-$("#btnLogout").onclick=()=>{localStorage.clear();$("#btnLogin").style.display="inline-flex";$("#btnLogout").style.display="none";$("#lockOverlay").style.display="flex";$("#btnGenerate").disabled=true;toast("Signed out.");};
-
+$("#btnLogout").onclick=()=>{localStorage.clear();lockUI();toast("Signed out.");};
+$("#btnSignInOverlay").onclick=()=>$("#authModal").classList.add("show");
 $("#ctaGetStarted").onclick=()=>$("#authModal").classList.add("show");
-$("#ctaSeeDemo").onclick=()=>document.querySelector("#generator").scrollIntoView({behavior:"smooth"});
-const nav=document.querySelector(".glass-nav");
-window.addEventListener("scroll",()=>{nav.style.background=window.scrollY>50?"rgba(12,12,28,.75)":"rgba(12,12,28,.55)";});
 
-async function postJSON(p,b){return await fetch(p,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(b||{})});}
-async function verifyToken(){const t=localStorage.getItem("token");if(!t)return false;try{const r=await fetch("/verifyToken",{method:"POST",headers:{"Content-Type":"application/json",Authorization:`Bearer ${t}`}});if(!r.ok)return false;const d=await r.json();return d.valid===true;}catch{return false;}}
-function unlockIfEligible(){const e=(localStorage.getItem("email")||"").toLowerCase();const p=localStorage.getItem("hasPaid")==="true";const b=e===BYPASS_EMAIL;const ok=p||b;if(b){localStorage.setItem("hasPaid","true");toast("🧠 Developer bypass active");}$("#lockOverlay").style.display=ok?"none":"flex";$("#btnGenerate").disabled=!ok;}
+async function postJSON(url,body){return fetch(url,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});}
+$("#btnSignup").onclick=async()=>{const e=$("#email").value,p=$("#password").value;if(!e||!p)return toast("Enter email & password.");try{const r=await postJSON("/signup",{email:e,password:p});const d=await r.json();if(!r.ok)return toast(d.error||"Signup failed.");toast("✅ Account created. Sign in.");}catch{toast("Network error.");}};
+$("#btnSignin").onclick=async()=>{const e=$("#email").value,p=$("#password").value;if(!e||!p)return toast("Enter email & password.");try{const r=await postJSON("/signin",{email:e,password:p});const d=await r.json();if(!r.ok)return toast(d.error||"Sign in failed.");localStorage.setItem("token",d.token);localStorage.setItem("email",e.toLowerCase());localStorage.setItem("hasPaid",d.hasPaid?"true":"false");$("#authModal").classList.remove("show");lockUI();toast("✅ Signed in.");}catch{toast("Network error.");}};
 
-// signup/signin
-$("#btnSignup").onclick=async()=>{const e=$("#email").value.trim(),p=$("#password").value.trim();if(!e||!p)return toast("Enter email & password.");try{const r=await postJSON("/signup",{email:e,password:p});const d=await r.json();if(!r.ok)return toast(d.error||"Signup failed.");toast("✅ Account created. Sign in now.");}catch{toast("Network error during signup.");}};
-$("#btnSignin").onclick=async()=>{const e=$("#email").value.trim(),p=$("#password").value.trim();if(!e||!p)return toast("Enter email & password.");try{const r=await postJSON("/signin",{email:e,password:p});const d=await r.json();if(!r.ok)return toast(d.error||"Sign in failed.");localStorage.setItem("token",d.token);localStorage.setItem("email",e.toLowerCase());localStorage.setItem("hasPaid",d.hasPaid?"true":"false");$("#authModal").classList.remove("show");$("#btnLogin").style.display="none";$("#btnLogout").style.display="inline-flex";unlockIfEligible();toast("✅ Signed in.");}catch{toast("Network error during signin.");}};
+// LOCK UI
+function lockUI(){
+  const email=(localStorage.getItem("email")||"").toLowerCase();
+  const paid=localStorage.getItem("hasPaid")==="true"||email===BYPASS_EMAIL;
+  $("#lockOverlay").style.display=paid?"none":"flex";
+  $("#btnGenerate").disabled=!paid;
+  $("#btnLogin").style.display=localStorage.getItem("token")?"none":"inline-flex";
+  $("#btnLogout").style.display=localStorage.getItem("token")?"inline-flex":"none";
+}
 
-// payment
-["#btnBuy","#buyNow","#buyNowOverlay"].forEach(s=>{const e=$(s);if(!e)return;e.onclick=()=>{const t=localStorage.getItem("token");if(!t){toast("Sign in first to buy.");$("#authModal").classList.add("show");return;}window.open(PAYPAL_LINK,"_blank");localStorage.setItem("hasPaid","true");unlockIfEligible();toast("✅ Access unlocked!");};});
+// BUY BUTTONS
+function buyAccess(){
+  if(!localStorage.getItem("token")){toast("Sign in first.");$("#authModal").classList.add("show");return;}
+  window.open(PAYPAL_LINK,"_blank");
+  localStorage.setItem("hasPaid","true");
+  lockUI();
+  toast("✅ PayPal opened — unlocks after purchase.");
+}
+["#btnBuyNav","#btnBuyHero","#btnBuyOverlay","#btnBuyPricing"].forEach(id=>{$(id).onclick=buyAccess;});
 
 // GENERATE
 $("#btnGenerate").onclick=async()=>{
-  const text=$("#prompt").value.trim();if(!text)return toast("Enter a prompt first.");
-  const token=localStorage.getItem("token");if(!token){toast("Sign in first.");$("#authModal").classList.add("show");return;}
+  const text=$("#prompt").value.trim();
+  if(!text)return toast("Enter a prompt first.");
+  const token=localStorage.getItem("token");
   $("#responseBox").textContent="⚙️ Generating...";$("#explanationBox").textContent="⌛ Thinking...";
   try{
     const res=await fetch("/generate",{method:"POST",headers:{"Content-Type":"application/json",Authorization:`Bearer ${token}`},body:JSON.stringify({prompt:text})});
-    const data=await res.json();if(!res.ok){$("#responseBox").textContent="❌ "+(data.error||"Server error.");$("#explanationBox").textContent="";return;}
-    let out=data.output||"",exp=data.explanation||"";const split=/(\bEXPLANATION:|\bExplanation:|---+)/i;
-    if(split.test(out)){const p=out.split(split);out=p[0].trim();exp=p.slice(1).join("---").trim();}
-    $("#responseBox").textContent=out||"(No code returned.)";$("#explanationBox").textContent=exp||"(No explanation found.)";$("#responseBox").scrollIntoView({behavior:"smooth"});
-  }catch(err){$("#responseBox").textContent="⚠️ Network error.";$("#explanationBox").textContent="";}
+    const data=await res.json();
+    if(!res.ok)return $("#responseBox").textContent="❌ "+(data.error||"Server error.");
+    $("#responseBox").textContent=data.output||"(No output)";
+    $("#explanationBox").textContent=data.explanation||"(No explanation)";
+  }catch{ $("#responseBox").textContent="⚠️ Network error."; $("#explanationBox").textContent=""; }
 };
 
-// INIT
-window.addEventListener("load",async()=>{const v=await verifyToken();if(v){$("#btnLogin").style.display="none";$("#btnLogout").style.display="inline-flex";}else{$("#btnLogin").style.display="inline-flex";$("#btnLogout").style.display="none";}unlockIfEligible();});
+// SCROLL + INIT
+window.addEventListener("scroll",()=>{$(".glass-nav").style.background=window.scrollY>50?"rgba(12,12,28,.75)":"rgba(12,12,28,.55)";});
+window.addEventListener("load",lockUI);
 </script>
 </body>
 </html>

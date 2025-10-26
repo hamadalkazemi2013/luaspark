@@ -9,25 +9,18 @@
 
 <style>
 :root {
-  --bg:#05060e;
-  --fg:#e8eaff;
-  --muted:#9aa3c7;
-  --accent:#7a68ff;
-  --accent-glow:#a693ff;
-  --glass:rgba(255,255,255,.07);
-  --line:rgba(255,255,255,.08);
-  --radius:18px;
-  --shadow:0 0 40px rgba(139,123,255,.18);
+  --bg:#05060e; --fg:#e8eaff; --muted:#9aa3c7;
+  --accent:#7a68ff; --accent-glow:#a693ff;
+  --glass:rgba(255,255,255,.07); --line:rgba(255,255,255,.08);
+  --radius:18px; --shadow:0 0 40px rgba(139,123,255,.18);
 }
-* { box-sizing:border-box; margin:0; padding:0; }
-body {
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
   font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-  background:var(--bg);
-  color:var(--fg);
-  overflow-x:hidden;
+  background:var(--bg);color:var(--fg);overflow-x:hidden;
 }
 
-/* animated bg */
+/* Animated background */
 .bg-gradient{
   position:fixed;inset:0;z-index:-2;
   background:
@@ -38,12 +31,9 @@ body {
   animation:bgShift 20s ease-in-out infinite;
   filter:blur(100px);
 }
-@keyframes bgShift{
-  0%,100%{background-position:0% 50%}
-  50%{background-position:100% 50%}
-}
+@keyframes bgShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
 
-/* navbar */
+/* Navbar */
 .glass-nav{
   position:fixed;top:0;width:100%;height:72px;
   backdrop-filter:blur(16px) saturate(180%);
@@ -56,32 +46,15 @@ body {
   display:flex;align-items:center;justify-content:space-between;
   padding:0 24px;
 }
-.brand{
-  display:flex;align-items:center;gap:10px;text-decoration:none;
-}
-.brand img{
-  width:42px;height:42px;border-radius:10px;
-  box-shadow:0 0 20px rgba(123,108,255,.7);
-}
-.brand span{
-  font-weight:800;font-size:1.2rem;color:var(--fg);
-}
-.nav-links a{
-  color:var(--muted);text-decoration:none;
-  padding:8px 14px;border-radius:10px;transition:.2s;
-  font-size:.9rem;
-}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.brand img{width:42px;height:42px;border-radius:10px;box-shadow:0 0 20px rgba(123,108,255,.7);}
+.brand span{font-weight:800;font-size:1.2rem;color:var(--fg);}
+.nav-links a{color:var(--muted);text-decoration:none;padding:8px 14px;border-radius:10px;transition:.2s;font-size:.9rem;}
 .nav-links a:hover{color:#fff;background:var(--glass);}
-.nav-actions{
-  display:flex;align-items:center;gap:8px;
-}
-
-/* buttons */
+.nav-actions{display:flex;align-items:center;gap:8px;}
 .btn{
-  border:1px solid var(--line);
-  background:var(--glass);
-  color:#fff;font-weight:600;
-  border-radius:12px;cursor:pointer;
+  border:1px solid var(--line);background:var(--glass);
+  color:#fff;font-weight:600;border-radius:12px;cursor:pointer;
   transition:all .2s;padding:9px 16px;font-size:.9rem;
 }
 .btn:hover{background:rgba(255,255,255,.1);}
@@ -92,7 +65,7 @@ body {
 }
 .btn-primary:hover{filter:brightness(1.15);}
 
-/* hero */
+/* Hero */
 .hero{
   display:flex;align-items:center;justify-content:center;
   min-height:100vh;padding:120px 24px 80px;
@@ -102,53 +75,32 @@ body {
 .hero h1{
   font-size:clamp(40px,6vw,70px);font-weight:900;
   background:linear-gradient(180deg,#fff,var(--accent-glow));
-  -webkit-background-clip:text;background-clip:text;
-  -webkit-text-fill-color:transparent;
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
   color:transparent;line-height:1.1;margin-bottom:14px;
 }
-.hero p{
-  color:var(--muted);font-size:1.1rem;margin-bottom:20px;
-}
-.hero-cta{
-  display:flex;flex-wrap:wrap;gap:12px;
-}
-.hero-preview{
-  flex:1;min-width:280px;display:flex;align-items:center;justify-content:center;
-}
+.hero p{color:var(--muted);font-size:1.1rem;margin-bottom:20px;}
+.hero-cta{display:flex;flex-wrap:wrap;gap:12px;}
 .glass-card{
   width:100%;max-width:420px;padding:28px;border-radius:var(--radius);
   background:var(--glass);backdrop-filter:blur(16px);
   border:1px solid var(--line);box-shadow:var(--shadow);text-align:left;
 }
-.glass-card h3{
-  margin-bottom:10px;color:#bfc9ff;font-size:1rem;font-weight:600;
-}
-pre{
-  color:#dfe3ff;font-size:.9rem;white-space:pre-wrap;line-height:1.4;
-}
+.glass-card h3{margin-bottom:10px;color:#bfc9ff;font-size:1rem;font-weight:600;}
+pre{color:#dfe3ff;font-size:.9rem;white-space:pre-wrap;line-height:1.4;}
 
-/* generator */
+/* Generator */
 section{padding:80px 16px;text-align:center;}
 .section-title{font-size:2.2rem;margin-bottom:8px;font-weight:700;}
 .section-sub{color:var(--muted);margin-bottom:36px;font-size:.95rem;}
-
-.generator{padding:100px 16px;text-align:center;}
 .gen-box{
-  max-width:900px;margin:0 auto;position:relative;border-radius:var(--radius);
+  max-width:1100px;margin:0 auto;position:relative;border-radius:var(--radius);
   background:var(--glass);backdrop-filter:blur(16px);
   padding:26px;border:1px solid var(--line);box-shadow:var(--shadow);
 }
-.gen-inputs{
-  display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:16px 0;
-}
+.gen-inputs{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:16px 0;}
 .input{
   flex:1;min-width:260px;padding:14px;border-radius:12px;
-  border:1px solid var(--line);background:rgba(255,255,255,.05);color:#fff;
-  font-size:.9rem;
-}
-#btnGenerate[disabled]{
-  filter:grayscale(1) brightness(.6);
-  cursor:not-allowed;
+  border:1px solid var(--line);background:rgba(255,255,255,.05);color:#fff;font-size:.9rem;
 }
 .overlay{
   position:absolute;inset:0;display:flex;flex-direction:column;
@@ -156,97 +108,48 @@ section{padding:80px 16px;text-align:center;}
   background:rgba(5,6,14,.9);border-radius:var(--radius);
   backdrop-filter:blur(10px);z-index:5;text-align:center;padding:20px;
 }
-.overlay h3{
-  font-size:1.1rem;font-weight:600;margin-bottom:6px;
+.overlay h3{font-size:1.1rem;font-weight:600;margin-bottom:6px;}
+.overlay p{color:#9aa3c7;font-size:.9rem;margin-bottom:12px;}
+.response-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:20px;align-items:flex-start;
 }
-.overlay p{
-  color:#9aa3c7;font-size:.9rem;margin-bottom:12px;
-}
+.response-section h3{font-size:1rem;font-weight:600;margin-bottom:8px;color:#bfc9ff;}
 .response-box{
-  text-align:left;white-space:pre-wrap;word-wrap:break-word;
-  color:#dce0ff;min-height:160px;font-size:.9rem;
-  background:rgba(0,0,0,.2);border-radius:12px;padding:14px;
+  text-align:left;white-space:pre-wrap;word-wrap:break-word;word-break:break-word;
+  color:#dce0ff;font-family:"Consolas","Courier New",monospace;font-size:.9rem;
+  background:rgba(0,0,0,.25);border-radius:12px;padding:16px;
   border:1px solid rgba(255,255,255,.07);
+  min-height:400px;height:auto;max-height:none;overflow:visible;
+  line-height:1.45;transition:all .3s ease;
 }
+@media(max-width:900px){.response-grid{grid-template-columns:1fr;}}
 
-/* pricing */
-.price-card{
-  background:var(--glass);border:1px solid var(--line);
-  border-radius:var(--radius);padding:24px;
-  backdrop-filter:blur(16px);box-shadow:var(--shadow);
-  max-width:420px;margin:0 auto;text-align:center;
-}
-.price-card .price{
-  font-size:3rem;
-  background:linear-gradient(180deg,#fff,var(--accent-glow));
+/* Pricing / Footer / Auth */
+.price-card{background:var(--glass);border:1px solid var(--line);
+  border-radius:var(--radius);padding:24px;backdrop-filter:blur(16px);
+  box-shadow:var(--shadow);max-width:420px;margin:0 auto;text-align:center;}
+.price-card .price{font-size:3rem;background:linear-gradient(180deg,#fff,var(--accent-glow));
   -webkit-background-clip:text;background-clip:text;color:transparent;
-  font-weight:800;line-height:1.1;margin:10px 0 6px;
-}
-.price-card p{
-  color:var(--muted);font-size:.9rem;line-height:1.4;
-}
-
-/* footer */
-footer{
-  border-top:1px solid var(--line);text-align:center;
-  padding:24px;color:var(--muted);font-size:.8rem;
-}
-
-/* modal */
-.modal{
-  position:fixed;inset:0;display:none;align-items:center;
-  justify-content:center;background:rgba(5,6,14,.7);z-index:300;
-}
+  font-weight:800;line-height:1.1;margin:10px 0 6px;}
+footer{border-top:1px solid var(--line);text-align:center;padding:24px;color:var(--muted);font-size:.8rem;}
+.modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(5,6,14,.7);z-index:300;}
 .modal.show{display:flex;}
-.auth{
-  background:var(--glass);padding:30px;border-radius:var(--radius);
-  width:min(420px,90%);border:1px solid var(--line);
-  box-shadow:var(--shadow);backdrop-filter:blur(16px);
-  position:relative;
-}
-.auth h2{
-  font-size:1.1rem;font-weight:600;margin-bottom:14px;
-}
-.auth input{
-  width:100%;margin-bottom:10px;padding:12px;border-radius:10px;
-  background:rgba(255,255,255,.05);border:1px solid var(--line);color:#fff;
-  font-size:.9rem;
-}
-.close{
-  position:absolute;top:10px;right:14px;background:none;
-  border:none;color:#fff;font-size:22px;line-height:1;cursor:pointer;
-}
-.auth-buttons{
-  display:flex;gap:8px;margin-top:8px;
-}
-
-/* toast */
-.toast{
-  position:fixed;left:50%;transform:translateX(-50%);
-  bottom:22px;background:rgba(15,15,30,.9);
-  color:#eaeaff;border:1px solid var(--line);
-  border-radius:12px;padding:10px 16px;display:none;
-  z-index:400;box-shadow:var(--shadow);font-size:.8rem;
-}
+.auth{background:var(--glass);padding:30px;border-radius:var(--radius);width:min(420px,90%);border:1px solid var(--line);
+  box-shadow:var(--shadow);backdrop-filter:blur(16px);position:relative;}
+.auth h2{font-size:1.1rem;font-weight:600;margin-bottom:14px;}
+.auth input{width:100%;margin-bottom:10px;padding:12px;border-radius:10px;background:rgba(255,255,255,.05);border:1px solid var(--line);color:#fff;font-size:.9rem;}
+.close{position:absolute;top:10px;right:14px;background:none;border:none;color:#fff;font-size:22px;cursor:pointer;}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:22px;background:rgba(15,15,30,.9);color:#eaeaff;border:1px solid var(--line);
+  border-radius:12px;padding:10px 16px;display:none;z-index:400;box-shadow:var(--shadow);font-size:.8rem;}
 .toast.show{display:block;}
-
-@media(max-width:800px){
-  .hero{flex-direction:column;text-align:center;}
-  .hero-preview{order:-1;}
-  .nav-links{display:none;} /* collapse links on mobile for now */
-}
 </style>
 </head>
 <body>
 <div class="bg-gradient"></div>
 
-<!-- NAVBAR -->
 <header class="glass-nav">
   <nav class="nav-container">
-    <a href="#" class="brand">
-      <img src="luaspark-logo.png" alt="LuaSpark"/>
-      <span>LuaSpark</span>
-    </a>
+    <a href="#" class="brand"><img src="luaspark-logo.png" alt="LuaSpark"/><span>LuaSpark</span></a>
     <div class="nav-links">
       <a href="#generator">Generator</a>
       <a href="#pricing">Pricing</a>
@@ -261,344 +164,129 @@ footer{
   </nav>
 </header>
 
-<!-- HERO -->
 <section class="hero">
   <div class="hero-content">
     <h1>Accelerate Your LuaU Workflow</h1>
-    <p>Generate clean Roblox LuaU code instantly — powered by LuaSpark’s AI engine.</p>
+    <p>Generate functional Roblox LuaU code and detailed explanations instantly — powered by LuaSpark’s AI.</p>
     <div class="hero-cta">
       <button id="ctaGetStarted" class="btn btn-primary">Get Started</button>
       <button id="ctaSeeDemo" class="btn">See Demo</button>
     </div>
   </div>
-
-  <div class="hero-preview">
-    <div class="glass-card">
-      <h3>Example Output</h3>
-      <pre>local part = Instance.new("Part")
+  <div class="glass-card">
+    <h3>Example Output</h3>
+    <pre>local part = Instance.new("Part")
 part.Anchored = true
 part.Position = Vector3.new(0, 5, 0)
 part.Parent = workspace</pre>
-    </div>
   </div>
 </section>
 
-<!-- GENERATOR -->
 <section id="generator" class="generator">
   <h2 class="section-title">LuaSpark Generator</h2>
-  <p class="section-sub">Describe your idea — get working LuaU instantly.</p>
-
+  <p class="section-sub">Describe your idea — get optimized LuaU code and explanations.</p>
   <div class="gen-box">
-    <!-- LOCK OVERLAY -->
     <div id="lockOverlay" class="overlay">
       <h3>🔒 Unlock LuaSpark</h3>
       <p>Sign in & purchase lifetime access to use the generator.</p>
       <button id="buyNowOverlay" class="btn btn-primary">Buy Now</button>
     </div>
-
-    <!-- INPUT ROW -->
     <div class="gen-inputs">
-      <input
-        id="prompt"
-        class="input"
-        placeholder="e.g. LuaU: create a coins leaderboard and save with DataStore"
-      />
+      <input id="prompt" class="input" placeholder="e.g. Create a round system with map voting" />
       <button id="btnGenerate" class="btn btn-primary" disabled>Generate</button>
     </div>
-
-    <!-- RESPONSE -->
-    <pre id="responseBox" class="response-box">🤖 Enter a prompt to begin.</pre>
+    <div class="response-grid">
+      <div class="response-section">
+        <h3>🧠 Code Output</h3>
+        <pre id="responseBox" class="response-box">🤖 Waiting for your prompt...</pre>
+      </div>
+      <div class="response-section">
+        <h3>📘 Explanation</h3>
+        <pre id="explanationBox" class="response-box">💬 The explanation will appear here.</pre>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- PRICING -->
 <section id="pricing">
   <h2 class="section-title">Simple Pricing</h2>
-  <p class="section-sub">One-time payment, lifetime access.</p>
-
   <div class="price-card">
-    <h3 style="font-size:1rem;font-weight:600;margin-bottom:4px;">Lifetime Access</h3>
-    <div class="price">$6.99</div>
-    <p>Unlock the generator and future updates forever.</p>
-    <button id="buyNow" class="btn btn-primary" style="margin-top:10px;">Buy Now</button>
+    <h3>Lifetime Access</h3><div class="price">$6.99</div>
+    <p>Unlock the generator & all updates forever.</p>
+    <button id="buyNow" class="btn btn-primary">Buy Now</button>
   </div>
 </section>
 
-<!-- REVIEWS -->
 <section id="reviews">
   <h2 class="section-title">What Developers Say</h2>
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;max-width:1000px;margin:0 auto;">
-    <div class="glass-card" style="text-align:left;">
-      <p>"LuaSpark saved me hours — the code actually runs!"</p>
-      <div style="color:#ffd166;margin-top:8px;">★★★★★</div>
-      <div style="margin-top:6px;color:#a9bfec;font-weight:700;font-size:.8rem;">— Alex • Roblox Dev</div>
-    </div>
-    <div class="glass-card" style="text-align:left;">
-      <p>"It’s like having a LuaU mentor built in."</p>
-      <div style="color:#ffd166;margin-top:8px;">★★★★★</div>
-      <div style="margin-top:6px;color:#a9bfec;font-weight:700;font-size:.8rem;">— Sarah • Builder</div>
-    </div>
-    <div class="glass-card" style="text-align:left;">
-      <p>"Best $6.99 I’ve spent on my dev setup."</p>
-      <div style="color:#ffd166;margin-top:8px;">★★★★★</div>
-      <div style="margin-top:6px;color:#a9bfec;font-weight:700;font-size:.8rem;">— Hamza • Scripter</div>
-    </div>
+    <div class="glass-card"><p>"LuaSpark saved me hours — the code actually runs!"</p><div style="color:#ffd166;margin-top:8px;">★★★★★</div><div style="margin-top:6px;color:#a9bfec;font-weight:700;font-size:.8rem;">— Alex • Roblox Dev</div></div>
+    <div class="glass-card"><p>"It’s like having a LuaU mentor built in."</p><div style="color:#ffd166;margin-top:8px;">★★★★★</div><div style="margin-top:6px;color:#a9bfec;font-weight:700;font-size:.8rem;">— Sarah • Builder</div></div>
   </div>
 </section>
 
-<!-- CHANGELOG -->
 <section id="changelog">
   <h2 class="section-title">Changelog</h2>
   <div class="glass-card" style="max-width:600px;margin:0 auto;">
-    <p><strong>v4.0</strong> — Production build with persistent auth, memory, PayPal hooks.</p>
-    <p style="margin-top:8px;"><strong>v3.0</strong> — New SaaS layout + blurred glass theme.</p>
+    <p><strong>v5.0</strong> — Dual-output (code + explanation), persistent auth, and memory.</p>
   </div>
 </section>
 
 <footer>© 2025 LuaSpark. All rights reserved.</footer>
 
 <!-- AUTH MODAL -->
-<div id="authModal" class="modal">
-  <div class="auth">
-    <button id="closeAuth" class="close">×</button>
-    <h2>Sign In / Register</h2>
+<div id="authModal" class="modal"><div class="auth">
+  <button id="closeAuth" class="close">×</button>
+  <h2>Sign In / Register</h2>
+  <input id="email" type="email" placeholder="you@example.com" />
+  <input id="password" type="password" placeholder="••••••••" />
+  <div class="auth-buttons"><button id="btnSignin" class="btn btn-primary">Sign In</button><button id="btnSignup" class="btn">Sign Up</button></div>
+</div></div>
 
-    <input id="email" type="email" placeholder="you@example.com" />
-    <input id="password" type="password" placeholder="••••••••" />
-
-    <div class="auth-buttons">
-      <button id="btnSignin" class="btn btn-primary">Sign In</button>
-      <button id="btnSignup" class="btn">Sign Up</button>
-    </div>
-  </div>
-</div>
-
-<!-- TOAST -->
 <div id="toast" class="toast"></div>
 
 <script>
-/* ==============================
-   CONFIG / HELPERS
-============================== */
-const PAYPAL_LINK = "https://www.paypal.com/ncp/payment/QMBJE8CWUGEA4";
-const BYPASS_EMAIL = "Hamadalkazemi2013@gmail.com".toLowerCase();
-const $ = (s) => document.querySelector(s);
+const PAYPAL_LINK="https://www.paypal.com/ncp/payment/QMBJE8CWUGEA4";
+const BYPASS_EMAIL="Hamadalkazemi2013@gmail.com".toLowerCase();
+const $=(s)=>document.querySelector(s);
+const toast=(m,t=2600)=>{const e=$("#toast");e.textContent=m;e.classList.add("show");setTimeout(()=>e.classList.remove("show"),t);};
 
-const toast = (msg, t = 2600) => {
-  const el = $("#toast");
-  el.textContent = msg;
-  el.classList.add("show");
-  setTimeout(() => el.classList.remove("show"), t);
+$("#btnLogin").onclick=()=>$("#authModal").classList.add("show");
+$("#closeAuth").onclick=()=>$("#authModal").classList.remove("show");
+$("#btnLogout").onclick=()=>{localStorage.clear();$("#btnLogin").style.display="inline-flex";$("#btnLogout").style.display="none";$("#lockOverlay").style.display="flex";$("#btnGenerate").disabled=true;toast("Signed out.");};
+
+$("#ctaGetStarted").onclick=()=>$("#authModal").classList.add("show");
+$("#ctaSeeDemo").onclick=()=>document.querySelector("#generator").scrollIntoView({behavior:"smooth"});
+const nav=document.querySelector(".glass-nav");
+window.addEventListener("scroll",()=>{nav.style.background=window.scrollY>50?"rgba(12,12,28,.75)":"rgba(12,12,28,.55)";});
+
+async function postJSON(p,b){return await fetch(p,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(b||{})});}
+async function verifyToken(){const t=localStorage.getItem("token");if(!t)return false;try{const r=await fetch("/verifyToken",{method:"POST",headers:{"Content-Type":"application/json",Authorization:`Bearer ${t}`}});if(!r.ok)return false;const d=await r.json();return d.valid===true;}catch{return false;}}
+function unlockIfEligible(){const e=(localStorage.getItem("email")||"").toLowerCase();const p=localStorage.getItem("hasPaid")==="true";const b=e===BYPASS_EMAIL;const ok=p||b;if(b){localStorage.setItem("hasPaid","true");toast("🧠 Developer bypass active");}$("#lockOverlay").style.display=ok?"none":"flex";$("#btnGenerate").disabled=!ok;}
+
+// signup/signin
+$("#btnSignup").onclick=async()=>{const e=$("#email").value.trim(),p=$("#password").value.trim();if(!e||!p)return toast("Enter email & password.");try{const r=await postJSON("/signup",{email:e,password:p});const d=await r.json();if(!r.ok)return toast(d.error||"Signup failed.");toast("✅ Account created. Sign in now.");}catch{toast("Network error during signup.");}};
+$("#btnSignin").onclick=async()=>{const e=$("#email").value.trim(),p=$("#password").value.trim();if(!e||!p)return toast("Enter email & password.");try{const r=await postJSON("/signin",{email:e,password:p});const d=await r.json();if(!r.ok)return toast(d.error||"Sign in failed.");localStorage.setItem("token",d.token);localStorage.setItem("email",e.toLowerCase());localStorage.setItem("hasPaid",d.hasPaid?"true":"false");$("#authModal").classList.remove("show");$("#btnLogin").style.display="none";$("#btnLogout").style.display="inline-flex";unlockIfEligible();toast("✅ Signed in.");}catch{toast("Network error during signin.");}};
+
+// payment
+["#btnBuy","#buyNow","#buyNowOverlay"].forEach(s=>{const e=$(s);if(!e)return;e.onclick=()=>{const t=localStorage.getItem("token");if(!t){toast("Sign in first to buy.");$("#authModal").classList.add("show");return;}window.open(PAYPAL_LINK,"_blank");localStorage.setItem("hasPaid","true");unlockIfEligible();toast("✅ Access unlocked!");};});
+
+// GENERATE
+$("#btnGenerate").onclick=async()=>{
+  const text=$("#prompt").value.trim();if(!text)return toast("Enter a prompt first.");
+  const token=localStorage.getItem("token");if(!token){toast("Sign in first.");$("#authModal").classList.add("show");return;}
+  $("#responseBox").textContent="⚙️ Generating...";$("#explanationBox").textContent="⌛ Thinking...";
+  try{
+    const res=await fetch("/generate",{method:"POST",headers:{"Content-Type":"application/json",Authorization:`Bearer ${token}`},body:JSON.stringify({prompt:text})});
+    const data=await res.json();if(!res.ok){$("#responseBox").textContent="❌ "+(data.error||"Server error.");$("#explanationBox").textContent="";return;}
+    let out=data.output||"",exp=data.explanation||"";const split=/(\bEXPLANATION:|\bExplanation:|---+)/i;
+    if(split.test(out)){const p=out.split(split);out=p[0].trim();exp=p.slice(1).join("---").trim();}
+    $("#responseBox").textContent=out||"(No code returned.)";$("#explanationBox").textContent=exp||"(No explanation found.)";$("#responseBox").scrollIntoView({behavior:"smooth"});
+  }catch(err){$("#responseBox").textContent="⚠️ Network error.";$("#explanationBox").textContent="";}
 };
 
-/* ==============================
-   MODAL / NAV / UI
-============================== */
-$("#btnLogin").onclick = () => $("#authModal").classList.add("show");
-$("#closeAuth").onclick = () => $("#authModal").classList.remove("show");
-
-$("#btnLogout").onclick = () => {
-  localStorage.clear();
-  $("#btnLogin").style.display = "inline-flex";
-  $("#btnLogout").style.display = "none";
-  $("#lockOverlay").style.display = "flex";
-  $("#btnGenerate").disabled = true;
-  toast("Signed out.");
-};
-
-const nav = document.querySelector(".glass-nav");
-window.addEventListener("scroll", () => {
-  nav.style.background =
-    window.scrollY > 50 ? "rgba(12,12,28,.75)" : "rgba(12,12,28,.55)";
-});
-
-$("#ctaGetStarted").onclick = () => $("#authModal").classList.add("show");
-$("#ctaSeeDemo").onclick = () =>
-  document.querySelector("#generator").scrollIntoView({ behavior: "smooth" });
-
-/* ==============================
-   AUTH HELPERS
-============================== */
-async function postJSON(path, bodyObj) {
-  const res = await fetch(path, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(bodyObj || {}),
-  });
-  return res;
-}
-
-async function verifyToken() {
-  const token = localStorage.getItem("token");
-  if (!token) return false;
-
-  try {
-    const res = await fetch("/verifyToken", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    if (!res.ok) return false;
-    const data = await res.json();
-    return data.valid === true;
-  } catch {
-    return false;
-  }
-}
-
-function unlockIfEligible() {
-  const email = (localStorage.getItem("email") || "").toLowerCase();
-  const paid = localStorage.getItem("hasPaid") === "true";
-  const bypass = email === BYPASS_EMAIL;
-  const ok = paid || bypass;
-
-  if (bypass) {
-    localStorage.setItem("hasPaid", "true");
-    toast("🧠 Developer bypass active");
-  }
-
-  $("#lockOverlay").style.display = ok ? "none" : "flex";
-  $("#btnGenerate").disabled = !ok;
-}
-
-/* ==============================
-   SIGNUP / SIGNIN
-============================== */
-$("#btnSignup").onclick = async () => {
-  const e = $("#email").value.trim();
-  const p = $("#password").value.trim();
-  if (!e || !p) return toast("Enter email and password.");
-
-  try {
-    const res = await postJSON("/signup", { email: e, password: p });
-    const data = await res.json();
-
-    if (!res.ok) {
-      toast(data.error || "Signup failed.");
-      return;
-    }
-
-    // we don't auto-login on signup (safer). user will click sign in.
-    toast("✅ Account created. Sign in now.");
-  } catch {
-    toast("Network error during signup.");
-  }
-};
-
-$("#btnSignin").onclick = async () => {
-  const e = $("#email").value.trim();
-  const p = $("#password").value.trim();
-  if (!e || !p) return toast("Enter email and password.");
-
-  try {
-    const res = await postJSON("/signin", { email: e, password: p });
-    const data = await res.json();
-
-    if (!res.ok) {
-      toast(data.error || "Sign in failed.");
-      return;
-    }
-
-    // store session
-    localStorage.setItem("token", data.token);
-    localStorage.setItem("email", e.toLowerCase());
-    localStorage.setItem("hasPaid", data.hasPaid ? "true" : "false");
-
-    $("#authModal").classList.remove("show");
-    $("#btnLogin").style.display = "none";
-    $("#btnLogout").style.display = "inline-flex";
-
-    unlockIfEligible();
-    toast("✅ Signed in.");
-  } catch {
-    toast("Network error during signin.");
-  }
-};
-
-/* ==============================
-   PAYMENT / BUY
-============================== */
-["#btnBuy", "#buyNow", "#buyNowOverlay"].forEach((sel) => {
-  const el = $(sel);
-  if (!el) return;
-
-  el.onclick = () => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      toast("Sign in first to buy.");
-      $("#authModal").classList.add("show");
-      return;
-    }
-
-    // Simulated unlock: open PayPal, then markPaid client-side
-    window.open(PAYPAL_LINK, "_blank");
-
-    // set paid flag locally
-    localStorage.setItem("hasPaid", "true");
-    unlockIfEligible();
-    toast("✅ Access unlocked!");
-  };
-});
-
-/* ==============================
-   GENERATE
-============================== */
-$("#btnGenerate").onclick = async () => {
-  const text = $("#prompt").value.trim();
-  if (!text) return toast("Enter a prompt first.");
-
-  const token = localStorage.getItem("token");
-  if (!token) {
-    toast("Sign in first.");
-    $("#authModal").classList.add("show");
-    return;
-  }
-
-  $("#responseBox").textContent = "⚙️ Generating...";
-
-  try {
-    const res = await fetch("/generate", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ prompt: text }),
-    });
-
-    const data = await res.json();
-
-    if (!res.ok) {
-      $("#responseBox").textContent =
-        "❌ " + (data.error || "Server error.");
-      return;
-    }
-
-    $("#responseBox").textContent =
-      data.output || "(No output returned.)";
-  } catch (err) {
-    $("#responseBox").textContent = "⚠️ Network error.";
-  }
-};
-
-/* ==============================
-   INIT ON LOAD
-============================== */
-window.addEventListener("load", async () => {
-  const valid = await verifyToken();
-
-  if (valid) {
-    $("#btnLogin").style.display = "none";
-    $("#btnLogout").style.display = "inline-flex";
-  } else {
-    $("#btnLogin").style.display = "inline-flex";
-    $("#btnLogout").style.display = "none";
-  }
-
-  unlockIfEligible();
-});
+// INIT
+window.addEventListener("load",async()=>{const v=await verifyToken();if(v){$("#btnLogin").style.display="none";$("#btnLogout").style.display="inline-flex";}else{$("#btnLogin").style.display="inline-flex";$("#btnLogout").style.display="none";}unlockIfEligible();});
 </script>
 </body>
 </html>

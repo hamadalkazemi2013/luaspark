@@ -1,6 +1,6 @@
 // ---------------------------
-// LuaSpark v3 Server Backend
-// Context-Aware, Fast, and Stable
+// LuaSpark v4 Server Backend
+// Production-Ready, Verified, and Stable
 // ---------------------------
 
 import express from "express";
@@ -13,6 +13,7 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const DB_PATH = "./users.json";
 
 // ---------------------------
 // Middleware
@@ -22,105 +23,131 @@ app.use(cors());
 app.use(express.static("public"));
 
 // ---------------------------
-// Load / Save Users
+// Initialize User Database
 // ---------------------------
 let users = new Map();
-const dbPath = "./users.json";
 
 function loadUsers() {
-  if (fs.existsSync(dbPath)) {
-    const data = JSON.parse(fs.readFileSync(dbPath, "utf-8"));
-    users = new Map(Object.entries(data));
-    console.log(`[INIT] Loaded ${users.size} users from DB.`);
+  if (fs.existsSync(DB_PATH)) {
+    try {
+      const data = fs.readFileSync(DB_PATH, "utf8");
+      users = new Map(Object.entries(JSON.parse(data)));
+      console.log(`[INIT] Loaded ${users.size} users.`);
+    } catch (err) {
+      console.error("[INIT] Failed to parse users.json:", err);
+      users = new Map();
+    }
   } else {
-    fs.writeFileSync(dbPath, "{}");
+    fs.writeFileSync(DB_PATH, "{}");
     console.log("[INIT] Created new users.json");
   }
 }
 
 function saveUsers() {
-  fs.writeFileSync(dbPath, JSON.stringify(Object.fromEntries(users), null, 2));
+  fs.writeFileSync(DB_PATH, JSON.stringify(Object.fromEntries(users), null, 2));
 }
-
 loadUsers();
 
 // ---------------------------
 // OpenAI Setup
 // ---------------------------
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 // ---------------------------
-// Auth Routes
+// Utility Helpers
+// ---------------------------
+const normalize = (str) => (str || "").trim().toLowerCase();
+const genToken = () =>
+  Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
+const findByToken = (t) => [...users.values()].find((u) => u.token === t);
+
+// ---------------------------
+// Authentication Routes
 // ---------------------------
 app.post("/signup", (req, res) => {
   const { email, password } = req.body;
   if (!email || !password)
     return res.status(400).json({ error: "Email and password required." });
 
-  if (users.has(email))
-    return res.status(400).json({ error: "User already exists." });
+  const e = normalize(email);
+  if (users.has(e)) return res.status(400).json({ error: "User already exists." });
 
-  const token = Math.random().toString(36).substring(2);
-  users.set(email, { email, password, token, hasPaid: false, memory: [] });
+  const token = genToken();
+  users.set(e, { email: e, password, token, hasPaid: false, memory: [] });
   saveUsers();
+
+  console.log(`[SIGNUP] New user: ${e}`);
   res.json({ token });
 });
 
 app.post("/signin", (req, res) => {
   const { email, password } = req.body;
-  const user = users.get(email);
+  const e = normalize(email);
+  const user = users.get(e);
   if (!user || user.password !== password)
     return res.status(401).json({ error: "Invalid credentials." });
 
-  res.json({ token: user.token });
+  console.log(`[SIGNIN] ${e}`);
+  res.json({ token: user.token, hasPaid: user.hasPaid });
+});
+
+// ✅ Legacy alias for frontend compatibility
+app.post("/login", (req, res) => {
+  const { email, password } = req.body;
+  const e = normalize(email);
+  const user = users.get(e);
+  if (!user || user.password !== password)
+    return res.status(401).json({ error: "Invalid credentials." });
+  res.json({ token: user.token, hasPaid: user.hasPaid });
 });
 
 // ---------------------------
-// Generate Endpoint (Memory + Bypass)
+// Verify Token
+// ---------------------------
+app.post("/verifyToken", (req, res) => {
+  const auth = req.headers.authorization || "";
+  const token = auth.replace("Bearer ", "").trim();
+  if (!token) return res.status(401).json({ valid: false });
+
+  const user = findByToken(token);
+  if (!user) return res.status(401).json({ valid: false });
+
+  res.json({ valid: true, email: user.email, hasPaid: user.hasPaid });
+});
+
+// ---------------------------
+// Generate Code Endpoint
 // ---------------------------
 app.post("/generate", async (req, res) => {
   try {
-    const authHeader = req.headers.authorization || "";
-    const token = authHeader.replace("Bearer ", "").trim();
+    const auth = req.headers.authorization || "";
+    const token = auth.replace("Bearer ", "").trim();
     const { prompt } = req.body;
 
     if (!token) return res.status(403).json({ error: "Unauthorized." });
-    const user = [...users.values()].find((u) => u.token === token);
+    const user = findByToken(token);
     if (!user) return res.status(403).json({ error: "Unauthorized." });
 
-    const isBypassUser =
-      user.email?.toLowerCase?.() ===
-      process.env.BYPASS_EMAIL?.toLowerCase?.();
-
-    if (!user.hasPaid && !isBypassUser)
+    const bypass = normalize(user.email) === normalize(process.env.BYPASS_EMAIL);
+    if (!user.hasPaid && !bypass)
       return res.status(403).json({ error: "Payment required." });
 
-    if (!prompt)
-      return res.status(400).json({ error: "No prompt provided." });
+    if (!prompt) return res.status(400).json({ error: "Missing prompt." });
 
-    // ---------------------------
-    // Memory Logic
-    // ---------------------------
+    // Maintain last 10 messages (memory)
     if (!user.memory) user.memory = [];
     user.memory.push({ role: "user", content: prompt });
-
-    // Keep last 10 exchanges
     if (user.memory.length > 10) user.memory = user.memory.slice(-10);
 
     const messages = [
       {
         role: "system",
         content:
-          "You are LuaSpark, an AI assistant that generates functional Roblox LuaU scripts. Always respond with code and short explanations when needed.",
+          "You are LuaSpark, an expert AI that writes clean, working Roblox LuaU scripts with brief, clear explanations.",
       },
       ...user.memory,
     ];
 
-    // ---------------------------
-    // OpenAI API Call
-    // ---------------------------
     const completion = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       messages,
@@ -129,30 +156,38 @@ app.post("/generate", async (req, res) => {
     });
 
     const output =
-      completion.choices?.[0]?.message?.content?.trim() ||
-      "No response generated.";
+      completion.choices?.[0]?.message?.content?.trim() || "No response generated.";
 
-    // Store assistant reply in memory
     user.memory.push({ role: "assistant", content: output });
     saveUsers();
 
     res.json({ output });
   } catch (err) {
     console.error("[/generate] error:", err);
-    res.status(500).json({
-      error: err.message || "Server error.",
-    });
+    res.status(500).json({ error: err.message || "Server error." });
   }
 });
 
 // ---------------------------
-// Periodic Save
+// Mark User Paid
+// ---------------------------
+app.post("/markPaid", (req, res) => {
+  const { email } = req.body;
+  const e = normalize(email);
+  const user = users.get(e);
+  if (!user) return res.status(404).json({ error: "User not found." });
+
+  user.hasPaid = true;
+  saveUsers();
+  console.log(`[MARK PAID] ${e}`);
+  res.json({ ok: true });
+});
+
+// ---------------------------
+// Periodic Save + Startup
 // ---------------------------
 setInterval(saveUsers, 60 * 1000);
 
-// ---------------------------
-// Start Server
-// ---------------------------
-app.listen(PORT, () =>
-  console.log(`✅ LuaSpark v3 live → http://localhost:${PORT}`)
-);
+app.listen(PORT, () => {
+  console.log(`✅ LuaSpark v4 live → http://localhost:${PORT}`);
+});
